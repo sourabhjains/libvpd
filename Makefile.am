@@ -24,7 +24,9 @@ lib_LTLIBRARIES = libvpd_cxx.la libvpd.la
 library_includedir=$(includedir)/libvpd-2/
 library_include_HEADERS = $(lib_hpp_files) $(lib_h_files)
 
-AM_CPPFLAGS = -I./src/ -Wall -fstack-protector-all -fPIE -Wstack-protector
+AM_CPPFLAGS = -I./src/ -Wall -fstack-protector-all -fPIE -Wstack-protector \
+	      $(FORTIFY_CFLAGS)
+
 ACLOCAL_AMFLAGS = -I m4
 
 libvpd_la_SOURCES = src/vpdretriever_c.c \
@@ -59,7 +61,6 @@ libvpd_la_LDFLAGS = -module -version-info \
 
 AM_CXXFLAGS = -DDEST_DIR='"${exec_prefix}"'
 AM_CFLAGS = -DDEST_DIR='"${exec_prefix}"'
-
 LIBTOOL_DEPS = @LIBTOOL_DEPS@
 libtool: $(LIBTOOL_DEPS)
 	$(SHELL) ./config.status --recheck

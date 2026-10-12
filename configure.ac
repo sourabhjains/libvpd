@@ -81,6 +81,20 @@ AC_FUNC_MALLOC
 AC_FUNC_STAT
 AC_CHECK_FUNCS([memmove memset mkdir socket strdup strerror strtol uname sqlite3_prepare_v2])
 
+dnl Enable _FORTIFY_SOURCE only when optimization is enabled
+AC_MSG_CHECKING([whether optimization is enabled])
+AC_COMPILE_IFELSE(
+  [AC_LANG_PROGRAM([[]], [[
+# ifndef __OPTIMIZE__
+# error Compiler optimization is disabled
+# endif
+  ]])],
+  [FORTIFY_CFLAGS="-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3"
+   AC_MSG_RESULT([yes, using $FORTIFY_CFLAGS])],
+  [FORTIFY_CFLAGS=""
+   AC_MSG_RESULT([no, _FORTIFY_SOURCE disabled])])
+AC_SUBST([FORTIFY_CFLAGS])
+
 #finished
 AC_CONFIG_FILES([Makefile libvpd.spec libvpd-2.pc libvpd_cxx-2.pc])
 AC_OUTPUT
