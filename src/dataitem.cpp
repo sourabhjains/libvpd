@@ -63,7 +63,7 @@ namespace lsvpd
 
 	Source * DataItem::getSource(int i) const
 	{
-		if (i < getNumSources() || i == 0) {
+		if (i >= 0 && i < getNumSources()) {
 			return sources[i];
 		}
 		else {
